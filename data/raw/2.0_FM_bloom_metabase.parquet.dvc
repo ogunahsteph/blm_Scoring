@@ -1,0 +1,4 @@
+outs:
+- md5: 3facce7df0782177c085807183f342d6
+  size: 15549825
+  path: 2.0_FM_bloom_metabase.parquet

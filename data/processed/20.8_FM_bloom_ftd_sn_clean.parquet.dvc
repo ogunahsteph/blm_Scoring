@@ -1,0 +1,4 @@
+outs:
+- md5: 5d9a02222813942e3c210dcb535e8c87
+  size: 2334
+  path: 20.8_FM_bloom_ftd_sn_clean.parquet

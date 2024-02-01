@@ -1,0 +1,5 @@
+outs:
+- md5: 706c2c589fa566cc623985854fedb367
+  size: 3386
+  hash: md5
+  path: 20.3_FM_bloom_ftd.parquet

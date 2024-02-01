@@ -1,0 +1,4 @@
+outs:
+- md5: a5045c2b19375717bacdf8c7feccf94e
+  size: 318553
+  path: 1.0_FM_bloom_clients_inference_summary.parquet

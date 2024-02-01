@@ -1,0 +1,5 @@
+outs:
+- md5: 87b002ab46a74733b02587b16898b9e9
+  size: 47671488
+  hash: md5
+  path: 2.1_FM_bloom_metabase_amount.parquet

@@ -1,0 +1,5 @@
+outs:
+- md5: 8d59233c16af158e46c42d41ddcbd538
+  size: 13047477
+  hash: md5
+  path: 1.0_FM_bloom_lftsv.parquet

@@ -1,0 +1,5 @@
+outs:
+- md5: bdbc3739cfe2c1cc8edc0a8bea14ec32
+  size: 5628423
+  hash: md5
+  path: Limits_refresh_summary_20230901_multiple_products.parquet

@@ -1,0 +1,4 @@
+outs:
+- md5: fb22a4e060cf5ef5005a9a34db58c143
+  size: 24905
+  path: 20.5_FM_bloom_ftd_lftsv.parquet

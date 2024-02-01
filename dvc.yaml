@@ -1,0 +1,187 @@
+stages:
+  a_raw_dataset_creation:
+    cmd: python src/data/load_data.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/data/load_data.py
+    - data/raw/1.0_FM_bloom_lftsv.parquet
+    - data/raw/1.1_FM_bloom_td.parquet
+    - data/raw/2.3_FM_bloom_bcsv.parquet
+    # - data/raw/2.0_FM_bloom_metabase.parquet
+    - data/raw/2.2_FM_bloom_metabase_trxn.parquet
+    - data/raw/2.1_FM_bloom_metabase_amount.parquet
+    - data/raw/3.0_FM_bloom_idm.parquet
+    - data/raw/3.2_FM_bloom_blacklist.parquet
+    - data/raw/3.3_FM_bloom_sr_21_limits.parquet
+    - data/raw/3.4_FM_bloom_sr_latest_refresh_limits.parquet
+    - data/raw/3.5_FM_bloom_rmv.parquet
+    - data/raw/20.3_FM_bloom_ftd.parquet
+    - data/raw/20.4_FM_bloom_lrr.parquet
+    - data/raw/20.4_FM_bloom_rein.parquet
+    - data/raw/20.7_FM_bloom_sr_rein_last_limits.parquet
+    # outs:
+    # - data/raw/1.0_FM_bloom_lftsv.parquet
+    # - data/raw/1.1_FM_bloom_td.parquet
+    # - data/raw/2.3_FM_bloom_bcsv.parquet
+    # # - data/raw/2.0_FM_bloom_metabase.parquet
+    # - data/raw/2.2_FM_bloom_metabase_trxn.parquet
+    # - data/raw/2.1_FM_bloom_metabase_amount.parquet
+    # - data/raw/3.0_FM_bloom_idm.parquet
+    # - data/raw/3.2_FM_bloom_blacklist.parquet
+    # - data/raw/3.3_FM_bloom_sr_21_limits.parquet
+    # - data/raw/3.4_FM_bloom_sr_latest_refresh_limits.parquet
+    # - data/raw/3.5_FM_bloom_rmv.parquet
+    # - data/raw/20.3_FM_bloom_ftd.parquet
+    # - data/raw/20.4_FM_bloom_lrr.parquet
+    # - data/raw/20.4_FM_bloom_rein.parquet
+    # - data/raw/20.7_FM_bloom_sr_rein_last_limits.parquet
+
+  b_clean_data:
+    cmd: python src/data/clean_data.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/data/clean_data.py
+    - data/raw/1.0_FM_bloom_lftsv.parquet
+    - data/raw/1.1_FM_bloom_td.parquet
+    - data/raw/2.3_FM_bloom_bcsv.parquet
+    # - data/raw/2.0_FM_bloom_metabase.parquet
+    - data/raw/2.2_FM_bloom_metabase_trxn.parquet
+    - data/raw/2.1_FM_bloom_metabase_amount.parquet
+    - data/raw/3.0_FM_bloom_idm.parquet
+    - data/raw/3.2_FM_bloom_blacklist.parquet
+    - data/raw/3.3_FM_bloom_sr_21_limits.parquet
+    - data/raw/3.4_FM_bloom_sr_latest_refresh_limits.parquet
+    - data/raw/3.5_FM_bloom_rmv.parquet
+    - data/raw/20.3_FM_bloom_ftd.parquet
+    - data/raw/20.4_FM_bloom_lrr.parquet
+    - data/raw/20.4_FM_bloom_rein.parquet
+    - data/raw/20.7_FM_bloom_sr_rein_last_limits.parquet
+    outs:
+    - data/processed/1.0_FM_bloom_lftsv_clean.parquet
+    - data/processed/1.1_FM_bloom_td_clean.parquet
+    - data/processed/2.1_FM_bloom_bcsv_clean.parquet
+    # - data/processed/2.0_FM_bloom_metabase_clean.parquet
+    - data/processed/2.2_FM_bloom_metabase_trxn_clean.parquet
+    - data/processed/2.1_FM_bloom_metabase_amount_clean.parquet
+    - data/processed/3.0_FM_bloom_idm_clean.parquet
+    - data/processed/3.2_FM_bloom_blacklist_clean.parquet
+    - data/processed/3.3_FM_bloom_sr_21_limits_clean.parquet
+    - data/processed/3.4_FM_bloom_sr_latest_refresh_limits_clean.parquet
+    - data/processed/3.5_FM_bloom_rmv_clean.parquet
+    - data/processed/20.3_FM_bloom_ftd_clean.parquet
+    - data/processed/20.4_FM_bloom_lrr_clean.parquet
+    - data/processed/20.4_FM_bloom_rein_clean.parquet
+    - data/processed/20.7_FM_bloom_sr_rein_last_limits_clean.parquet
+  
+  c_td_build_features:
+    cmd: python src/features/td_feature_engineering.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/features/td_feature_engineering.py
+    - data/processed/1.1_FM_bloom_td_clean.parquet
+    outs:
+    - data/interim/1.1_FM_bloom_td_engineered_features.parquet
+  
+  d_td_aggregate_features:
+    cmd: python src/features/td_aggregate_features.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/features/td_aggregate_features.py
+    - data/interim/1.1_FM_bloom_td_engineered_features.parquet
+    outs:
+    - data/interim/1.1_FM_bloom_td_summary.parquet
+  
+  e_lftsv_build_features:
+    cmd: python src/features/lftsv_feature_engineering.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/features/lftsv_feature_engineering.py
+    - data/processed/1.0_FM_bloom_lftsv_clean.parquet
+    outs:
+    - data/interim/1.0_FM_bloom_lftsv_engineered_features.parquet
+  
+  f_aggregate_features:
+    cmd: python src/features/aggregate_features.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/features/aggregate_features.py
+    - data/interim/1.0_FM_bloom_lftsv_engineered_features.parquet
+    - data/interim/1.1_FM_bloom_td_summary.parquet
+    # - data/processed/2.0_FM_bloom_metabase_clean.parquet
+    - data/processed/2.1_FM_bloom_metabase_amount_clean.parquet
+    - data/processed/2.2_FM_bloom_metabase_trxn_clean.parquet
+    outs:
+    - data/interim/1.0_FM_bloom_lftsv_max_dpd_30.parquet
+    - data/interim/1.0_FM_bloom_clients_loans_summary.parquet
+    - data/interim/2.0_FM_bloom_clients_tills_summary.parquet
+  
+  g_meta_build_features:
+    cmd: python src/features/meta_feature_engineering.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/features/meta_feature_engineering.py
+    - data/interim/1.0_FM_bloom_clients_loans_summary.parquet
+    - data/processed/2.1_FM_bloom_bcsv_clean.parquet
+    - data/interim/2.0_FM_bloom_clients_tills_summary.parquet
+    outs:
+    - data/interim/2.0_FM_bloom_clients_trxn_summary.parquet
+  
+  h_merge_all_datasets:
+    cmd: python src/features/merge_datasets.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/features/merge_datasets.py
+    - data/interim/2.0_FM_bloom_clients_trxn_summary.parquet
+    - data/processed/3.0_FM_bloom_idm_clean.parquet
+    - data/processed/2.1_FM_bloom_bcsv_clean.parquet
+    - data/interim/1.0_FM_bloom_clients_loans_summary.parquet
+    - data/processed/3.3_FM_bloom_sr_21_limits_clean.parquet
+    - data/processed/3.4_FM_bloom_sr_latest_refresh_limits_clean.parquet
+    - data/processed/3.5_FM_bloom_rmv_clean.parquet
+    - data/processed/20.7_FM_bloom_sr_rein_last_limits_clean.parquet
+    - data/interim/22.0_JN_Limits_refresh_summary_20230207_multiple_products.parquet
+    - data/interim/20.8_FM_bloom_sr_rein_cohort.parquet
+    outs:
+    - data/processed/7.0_FM_bloom_customers_no_till.parquet
+    - data/processed/4.0_FM_bloom_merged_data.parquet
+  
+  i_limit_scoring:
+    cmd: python src/models/limit_scoring_engine.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/models/limit_scoring_engine.py
+    - data/processed/4.0_FM_bloom_merged_data.parquet
+    outs:
+    - data/interim/scored_limits.parquet
+
+  j_limit_stabilisation:
+    cmd: python src/models/limit_stabilisation_engine.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/models/limit_stabilisation_engine.py
+    - data/interim/scored_limits.parquet
+    - data/processed/2.1_FM_bloom_bcsv_clean.parquet
+    - data/interim/1.0_FM_bloom_lftsv_max_dpd_30.parquet
+    - data/processed/20.3_FM_bloom_ftd_clean.parquet
+    - data/processed/20.4_FM_bloom_lrr_clean.parquet
+    - data/processed/20.4_FM_bloom_rein_clean.parquet
+    outs:
+    - data/interim/before_21d_graduation_limits.parquet
+    - data/interim/after_21d_graduation_limits.parquet
+    - data/processed/8.0_FM_excluded_first_time.parquet
+    - data/processed/5.0_FM_bloom_scored_limits_risk_review.parquet
+    - data/interim/after_rmdd_ge95_limits.parquet
+    - data/interim/after_rmdd_ge96_limits.parquet
+  
+  k_approved_limits_upload:
+    cmd: python src/models/upload_data.py --config=params.yaml
+    always_changed: true
+    deps:
+    - src/models/upload_data.py
+    - data/processed/5.0_FM_bloom_scored_limits_risk_review.parquet
+    outs:
+    - data/interim/3.6_FM_bloom_tss_validate_push.parquet
+    - data/interim/3.7_FM_bloom_sr_validate_push.parquet
+    - data/processed/6.0_FM_bloom_tss_scored_limits_approved.parquet
+    - data/processed/6.1_FM_bloom_sr_scored_limits_approved.parquet
+    - data/processed/6.2_FM_bloom_saf_scored_limits_approved.parquet

@@ -1,0 +1,4 @@
+outs:
+- md5: c6b1d47ddef3ebf8e036fa1b60d96dbe
+  size: 23061
+  path: 20.6_FM_bloom_ftd_lftsv_behaviour_clean.parquet

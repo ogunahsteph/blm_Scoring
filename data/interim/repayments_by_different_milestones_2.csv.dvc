@@ -1,0 +1,5 @@
+outs:
+- md5: 47de28ecdfaa6990040adb0cf0501722
+  size: 17444258
+  hash: md5
+  path: repayments_by_different_milestones_2.csv

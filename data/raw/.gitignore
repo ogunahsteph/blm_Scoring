@@ -1,0 +1,46 @@
+/.gitkeep
+/1.0_FM_bloom_lftsv.parquet
+/2.0_FM_bloom_metabase.parquet
+/2.1_FM_bloom_bcsv.parquet
+/3.0_FM_bloom_idm.parquet
+/3.1_JN_current_defaults_2022-09-22.csv
+/3.2_FM_bloom_blacklist.parquet
+/3.3_FM_bloom_sr.parquet
+/3.3_FM_bloom_sr_21_limits.parquet
+/3.4_FM_bloom_sr_latest_refresh_limits.parquet
+/1.0_FM_bloom_lftsv_20220926.parquet
+/1.1_FM_bloom_td.parquet
+/3.5_FM_bloom_rmv.parquet
+/2.1_FM_bloom_metabase_amount.parquet
+/3.6_FM_bloom_sr_validate_push.parquet
+/3.6_FM_bloom_tss_validate_push.parquet
+/3.7_FM_bloom_sr_validate_push.parquet
+/2.3_FM_bloom_bcsv.parquet
+/20.1_JN_First_Time_Defaulters_List.xlsx
+/20.3_FM_bloom_ftd.parquet
+/20.5_AH_Investigations_Limit_Allocation.xlsx
+/20.4_FM_bloom_lrr.parquet
+/20.6_JN_ftd_defaulters.xlsx
+/20.6_FM_bloom_ftd_lftsv_behaviour.parquet
+/20.5_FM_bloom_ftd_lftsv.parquet
+/20.9_FM_bloom_ftd_sn.parquet
+/20.8_FM_bloom_loan_book_open_loans_20230306.parquet
+/20.8_FM_bloom_loan_book_open_loans.parquet
+/20.7_JM_Bloom 2.0 - Loan Restructuring Campaign - Phase1.xlsx
+/20.7_FM_bloom_sr_rein_last_limits.parquet
+/20.10_FM_bloom_ftd_bcsv.parquet
+/20.11_FM_bloom_ftd_rmv.parquet
+/20.12_FM_bloom_ftd_rd.parquet
+/20.7_FM_Bloom_2.0_Loan_Restructuring_Campaign_Phase1_validation.xlsx
+/20.7_FM_Safaricom Loan Balance.csv
+/20.7_FM_Safaricom Loan Tape_20230309.csv
+/20.7_FM_bloom_loan_book_open_loans.parquet
+/20.8_FM_bloom_ftd_td.parquet
+/2.2_FM_bloom_metabase_trxn.parquet
+/20.4_FM_bloom_rein.parquet
+/20.8_FM_bloom_sr_rein_cohort.parquet
+/22.0_JN_Limits_refresh_summary_20230207_multiple_products.parquet
+/3.9_FM_bloom_blacklist_new.parquet
+/1.2_FM_bloom_waiver.parquet
+/repayments_by_different_milestones_2.csv
+/repayments_by_different_milestones_2.parquet

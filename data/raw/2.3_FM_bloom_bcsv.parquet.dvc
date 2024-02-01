@@ -1,0 +1,5 @@
+outs:
+- md5: ffba4e4121e2dbef5badf609ad7f570a
+  size: 6521340
+  hash: md5
+  path: 2.3_FM_bloom_bcsv.parquet

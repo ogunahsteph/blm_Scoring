@@ -1,0 +1,453 @@
+schema: '2.0'
+stages:
+  b_clean_data:
+    cmd: python src/data/clean_data.py --config=params.yaml
+    deps:
+    - path: data/raw/1.0_FM_bloom_lftsv.parquet
+      hash: md5
+      md5: 8d59233c16af158e46c42d41ddcbd538
+      size: 13047477
+    - path: data/raw/1.1_FM_bloom_td.parquet
+      hash: md5
+      md5: f6c48b07d51b73a401791a67e0aa2e38
+      size: 2830999
+    - path: data/raw/2.1_FM_bloom_metabase_amount.parquet
+      hash: md5
+      md5: 87b002ab46a74733b02587b16898b9e9
+      size: 47671488
+    - path: data/raw/2.2_FM_bloom_metabase_trxn.parquet
+      hash: md5
+      md5: bbb8b059fffd2f494b211258653e5f60
+      size: 977359
+    - path: data/raw/2.3_FM_bloom_bcsv.parquet
+      hash: md5
+      md5: ffba4e4121e2dbef5badf609ad7f570a
+      size: 6521340
+    - path: data/raw/20.3_FM_bloom_ftd.parquet
+      hash: md5
+      md5: 706c2c589fa566cc623985854fedb367
+      size: 3386
+    - path: data/raw/20.4_FM_bloom_lrr.parquet
+      hash: md5
+      md5: d371b112f40816c19d9d54415fecdab5
+      size: 3767
+    - path: data/raw/20.4_FM_bloom_rein.parquet
+      hash: md5
+      md5: 93a65539adf8991f0aaec39e716e76aa
+      size: 7709
+    - path: data/raw/20.7_FM_bloom_sr_rein_last_limits.parquet
+      hash: md5
+      md5: b62930cfc3f09ff8c8471b648e8fa5ff
+      size: 12929
+    - path: data/raw/3.0_FM_bloom_idm.parquet
+      hash: md5
+      md5: c4d492226d4452e2d0de963d07a07625
+      size: 1051155
+    - path: data/raw/3.2_FM_bloom_blacklist.parquet
+      hash: md5
+      md5: bc552d53531373b8ba39798ceeaca24a
+      size: 127296
+    - path: data/raw/3.3_FM_bloom_sr_21_limits.parquet
+      hash: md5
+      md5: f58c67e2a104042852ee22a3c3253a4b
+      size: 2532877
+    - path: data/raw/3.4_FM_bloom_sr_latest_refresh_limits.parquet
+      hash: md5
+      md5: f69d26b8f93ebeb65c28897473a0ffad
+      size: 1921325
+    - path: data/raw/3.5_FM_bloom_rmv.parquet
+      hash: md5
+      md5: cebc4e01fcd24702a5e8dcc62666bed8
+      size: 4327215
+    - path: src/data/clean_data.py
+      hash: md5
+      md5: 81bdb35b06a513f23bd0b5a308bc8770
+      size: 9359
+    outs:
+    - path: data/processed/1.0_FM_bloom_lftsv_clean.parquet
+      hash: md5
+      md5: ac0262937ba24aa5c7824cfa307355bc
+      size: 12821867
+    - path: data/processed/1.1_FM_bloom_td_clean.parquet
+      hash: md5
+      md5: 106abc657ae39614cd25f0bd0139f198
+      size: 2833343
+    - path: data/processed/2.1_FM_bloom_bcsv_clean.parquet
+      hash: md5
+      md5: e80b311fdeca55a74519566b80d8757c
+      size: 5687457
+    - path: data/processed/2.1_FM_bloom_metabase_amount_clean.parquet
+      hash: md5
+      md5: a46e6b41a70ca2162888d07b1e4f8571
+      size: 1294578
+    - path: data/processed/2.2_FM_bloom_metabase_trxn_clean.parquet
+      hash: md5
+      md5: 8f5ae0ae908639d849e94b3d3306807f
+      size: 977632
+    - path: data/processed/20.3_FM_bloom_ftd_clean.parquet
+      hash: md5
+      md5: 706c2c589fa566cc623985854fedb367
+      size: 3386
+    - path: data/processed/20.4_FM_bloom_lrr_clean.parquet
+      hash: md5
+      md5: d371b112f40816c19d9d54415fecdab5
+      size: 3767
+    - path: data/processed/20.4_FM_bloom_rein_clean.parquet
+      hash: md5
+      md5: e21f4ab182ab1203d236c96d630b04b9
+      size: 7709
+    - path: data/processed/20.7_FM_bloom_sr_rein_last_limits_clean.parquet
+      hash: md5
+      md5: ee4b5f2a528ab730ee28ef143a783606
+      size: 12929
+    - path: data/processed/3.0_FM_bloom_idm_clean.parquet
+      hash: md5
+      md5: 41c4bb7e72979324c0bdda3da027ac43
+      size: 1054821
+    - path: data/processed/3.2_FM_bloom_blacklist_clean.parquet
+      hash: md5
+      md5: e615099244d3c3c84e310626c75f337a
+      size: 137561
+    - path: data/processed/3.3_FM_bloom_sr_21_limits_clean.parquet
+      hash: md5
+      md5: 868c0aa141dd8bea7e86a6708075c27a
+      size: 2559723
+    - path: data/processed/3.4_FM_bloom_sr_latest_refresh_limits_clean.parquet
+      hash: md5
+      md5: b14e965e827fa118168f4b5cdf6b584a
+      size: 1863484
+    - path: data/processed/3.5_FM_bloom_rmv_clean.parquet
+      hash: md5
+      md5: 2e669c7390f87def53849d679e07b0a1
+      size: 4681633
+  e_lftsv_build_features:
+    cmd: python src/features/lftsv_feature_engineering.py --config=params.yaml
+    deps:
+    - path: data/processed/1.0_FM_bloom_lftsv_clean.parquet
+      hash: md5
+      md5: ac0262937ba24aa5c7824cfa307355bc
+      size: 12821867
+    - path: src/features/lftsv_feature_engineering.py
+      hash: md5
+      md5: e4443306544b1e0442a617dfa15c5d41
+      size: 17242
+    outs:
+    - path: data/interim/1.0_FM_bloom_lftsv_engineered_features.parquet
+      hash: md5
+      md5: 1ca42d8ca0525fe27a1bb1a7136245ee
+      size: 16154883
+  c_td_build_features:
+    cmd: python src/features/td_feature_engineering.py --config=params.yaml
+    deps:
+    - path: data/processed/1.1_FM_bloom_td_clean.parquet
+      hash: md5
+      md5: 106abc657ae39614cd25f0bd0139f198
+      size: 2833343
+    - path: src/features/td_feature_engineering.py
+      hash: md5
+      md5: 34feb5ef1940b2b3ec28352864df0406
+      size: 1293
+    outs:
+    - path: data/interim/1.1_FM_bloom_td_engineered_features.parquet
+      hash: md5
+      md5: 889dce583074151b66e76c287648a076
+      size: 5754897
+  d_td_aggregate_features:
+    cmd: python src/features/td_aggregate_features.py --config=params.yaml
+    deps:
+    - path: data/interim/1.1_FM_bloom_td_engineered_features.parquet
+      hash: md5
+      md5: 889dce583074151b66e76c287648a076
+      size: 5754897
+    - path: src/features/td_aggregate_features.py
+      hash: md5
+      md5: 1b613f762dab1898adcc888c2f486e0d
+      size: 1527
+    outs:
+    - path: data/interim/1.1_FM_bloom_td_summary.parquet
+      hash: md5
+      md5: 27aeeb6a10d9b5d5741a9b441bf4593b
+      size: 1873313
+  f_aggregate_features:
+    cmd: python src/features/aggregate_features.py --config=params.yaml
+    deps:
+    - path: data/interim/1.0_FM_bloom_lftsv_engineered_features.parquet
+      hash: md5
+      md5: 1ca42d8ca0525fe27a1bb1a7136245ee
+      size: 16154883
+    - path: data/interim/1.1_FM_bloom_td_summary.parquet
+      hash: md5
+      md5: 27aeeb6a10d9b5d5741a9b441bf4593b
+      size: 1873313
+    - path: data/processed/2.1_FM_bloom_metabase_amount_clean.parquet
+      hash: md5
+      md5: a46e6b41a70ca2162888d07b1e4f8571
+      size: 1294578
+    - path: data/processed/2.2_FM_bloom_metabase_trxn_clean.parquet
+      hash: md5
+      md5: 8f5ae0ae908639d849e94b3d3306807f
+      size: 977632
+    - path: src/features/aggregate_features.py
+      hash: md5
+      md5: 577b58fd3ef648ded66588e208550bd1
+      size: 19013
+    outs:
+    - path: data/interim/1.0_FM_bloom_clients_loans_summary.parquet
+      hash: md5
+      md5: 42b544dec87d4c117053ca5f00a3328b
+      size: 2519997
+    - path: data/interim/1.0_FM_bloom_lftsv_max_dpd_30.parquet
+      hash: md5
+      md5: 1f0e902979e152bfe229bdedebc8773f
+      size: 1795217
+    - path: data/interim/2.0_FM_bloom_clients_tills_summary.parquet
+      hash: md5
+      md5: 0efaa939636ffb8bbec5078a99aa2072
+      size: 1525133
+  g_meta_build_features:
+    cmd: python src/features/meta_feature_engineering.py --config=params.yaml
+    deps:
+    - path: data/interim/1.0_FM_bloom_clients_loans_summary.parquet
+      hash: md5
+      md5: 42b544dec87d4c117053ca5f00a3328b
+      size: 2519997
+    - path: data/interim/2.0_FM_bloom_clients_tills_summary.parquet
+      hash: md5
+      md5: 0efaa939636ffb8bbec5078a99aa2072
+      size: 1525133
+    - path: data/processed/2.1_FM_bloom_bcsv_clean.parquet
+      hash: md5
+      md5: e80b311fdeca55a74519566b80d8757c
+      size: 5687457
+    - path: src/features/meta_feature_engineering.py
+      hash: md5
+      md5: 4ada73e6337bf01bccf266a8bb849606
+      size: 7743
+    outs:
+    - path: data/interim/2.0_FM_bloom_clients_trxn_summary.parquet
+      hash: md5
+      md5: 27750bc5667abff29cfb1858b9b9b5eb
+      size: 1850236
+  h_merge_all_datasets:
+    cmd: python src/features/merge_datasets.py --config=params.yaml
+    deps:
+    - path: data/interim/1.0_FM_bloom_clients_loans_summary.parquet
+      hash: md5
+      md5: 42b544dec87d4c117053ca5f00a3328b
+      size: 2519997
+    - path: data/interim/2.0_FM_bloom_clients_trxn_summary.parquet
+      hash: md5
+      md5: 27750bc5667abff29cfb1858b9b9b5eb
+      size: 1850236
+    - path: data/interim/20.8_FM_bloom_sr_rein_cohort.parquet
+      hash: md5
+      md5: c1867f1a267b98e03b10c5030dc44a49
+      size: 90041
+    - path: data/interim/22.0_JN_Limits_refresh_summary_20230207_multiple_products.parquet
+      hash: md5
+      md5: 77f1993826f2dadabab4eae0ac83552e
+      size: 7247334
+    - path: data/processed/2.1_FM_bloom_bcsv_clean.parquet
+      hash: md5
+      md5: e80b311fdeca55a74519566b80d8757c
+      size: 5687457
+    - path: data/processed/20.7_FM_bloom_sr_rein_last_limits_clean.parquet
+      hash: md5
+      md5: ee4b5f2a528ab730ee28ef143a783606
+      size: 12929
+    - path: data/processed/3.0_FM_bloom_idm_clean.parquet
+      hash: md5
+      md5: 41c4bb7e72979324c0bdda3da027ac43
+      size: 1054821
+    - path: data/processed/3.3_FM_bloom_sr_21_limits_clean.parquet
+      hash: md5
+      md5: 868c0aa141dd8bea7e86a6708075c27a
+      size: 2559723
+    - path: data/processed/3.4_FM_bloom_sr_latest_refresh_limits_clean.parquet
+      hash: md5
+      md5: b14e965e827fa118168f4b5cdf6b584a
+      size: 1863484
+    - path: data/processed/3.5_FM_bloom_rmv_clean.parquet
+      hash: md5
+      md5: 2e669c7390f87def53849d679e07b0a1
+      size: 4681633
+    - path: src/features/merge_datasets.py
+      hash: md5
+      md5: 3df48da79ed051c8d4eeed35b28a6705
+      size: 31911
+    outs:
+    - path: data/processed/4.0_FM_bloom_merged_data.parquet
+      hash: md5
+      md5: 273109105db1e4a4d69580ee361295ac
+      size: 9737851
+    - path: data/processed/7.0_FM_bloom_customers_no_till.parquet
+      hash: md5
+      md5: bd940785ea6949692fb47a62703ec979
+      size: 33314
+  i_limit_scoring:
+    cmd: python src/models/limit_scoring_engine.py --config=params.yaml
+    deps:
+    - path: data/processed/4.0_FM_bloom_merged_data.parquet
+      hash: md5
+      md5: 273109105db1e4a4d69580ee361295ac
+      size: 9737851
+    - path: src/models/limit_scoring_engine.py
+      hash: md5
+      md5: 88845bef0d95e0d0fc9c8ccbfe5942c1
+      size: 29703
+    outs:
+    - path: data/interim/scored_limits.parquet
+      hash: md5
+      md5: 2e15b9c2dfb956884225900719d07aba
+      size: 12102447
+  j_limit_stabilisation:
+    cmd: python src/models/limit_stabilisation_engine.py --config=params.yaml
+    deps:
+    - path: data/interim/1.0_FM_bloom_lftsv_max_dpd_30.parquet
+      hash: md5
+      md5: 1f0e902979e152bfe229bdedebc8773f
+      size: 1795217
+    - path: data/interim/scored_limits.parquet
+      hash: md5
+      md5: 2e15b9c2dfb956884225900719d07aba
+      size: 12102447
+    - path: data/processed/2.1_FM_bloom_bcsv_clean.parquet
+      hash: md5
+      md5: e80b311fdeca55a74519566b80d8757c
+      size: 5687457
+    - path: data/processed/20.3_FM_bloom_ftd_clean.parquet
+      hash: md5
+      md5: 706c2c589fa566cc623985854fedb367
+      size: 3386
+    - path: data/processed/20.4_FM_bloom_lrr_clean.parquet
+      hash: md5
+      md5: d371b112f40816c19d9d54415fecdab5
+      size: 3767
+    - path: data/processed/20.4_FM_bloom_rein_clean.parquet
+      hash: md5
+      md5: e21f4ab182ab1203d236c96d630b04b9
+      size: 7709
+    - path: src/models/limit_stabilisation_engine.py
+      hash: md5
+      md5: 6ce7b56bf80d5ecd41629b5a109ba707
+      size: 120555
+    outs:
+    - path: data/interim/after_21d_graduation_limits.parquet
+      hash: md5
+      md5: 9de40eaeb143bbf3ae483904c0d79c78
+      size: 8268224
+    - path: data/interim/after_rmdd_ge95_limits.parquet
+      hash: md5
+      md5: a02ce47d444243fa6954e16350509229
+      size: 8295104
+    - path: data/interim/after_rmdd_ge96_limits.parquet
+      hash: md5
+      md5: 2e990a3f07ac55ada649d1cedce977e1
+      size: 8755359
+    - path: data/interim/before_21d_graduation_limits.parquet
+      hash: md5
+      md5: 625b1c74de1994112b495660aee975a1
+      size: 8269335
+    - path: data/processed/5.0_FM_bloom_scored_limits_risk_review.parquet
+      hash: md5
+      md5: c4ebc6b93afc3301b170f3f6461862e3
+      size: 10249362
+    - path: data/processed/8.0_FM_excluded_first_time.parquet
+      hash: md5
+      md5: 76dc3fb5e03364e956efa00b767d4a92
+      size: 3771609
+  k_approved_limits_upload:
+    cmd: python src/models/upload_data.py --config=params.yaml
+    deps:
+    - path: data/processed/5.0_FM_bloom_scored_limits_risk_review.parquet
+      hash: md5
+      md5: c4ebc6b93afc3301b170f3f6461862e3
+      size: 10249362
+    - path: src/models/upload_data.py
+      hash: md5
+      md5: 8a249278b36497e24979723c5288d8c1
+      size: 22654
+    outs:
+    - path: data/interim/3.6_FM_bloom_tss_validate_push.parquet
+      hash: md5
+      md5: 730637240c10962f82aff513ec36eab8
+      size: 5019
+    - path: data/interim/3.7_FM_bloom_sr_validate_push.parquet
+      hash: md5
+      md5: 3a84cd2000257be0bb151d187c1a237c
+      size: 5039
+    - path: data/processed/6.0_FM_bloom_tss_scored_limits_approved.parquet
+      hash: md5
+      md5: 90f4c5424b40d0a185254c197cf94a92
+      size: 10289392
+    - path: data/processed/6.1_FM_bloom_sr_scored_limits_approved.parquet
+      hash: md5
+      md5: b5cfe71dd9c207ff5a6f9a254e31314e
+      size: 15022337
+    - path: data/processed/6.2_FM_bloom_saf_scored_limits_approved.parquet
+      hash: md5
+      md5: b5cfe71dd9c207ff5a6f9a254e31314e
+      size: 15022337
+  a_raw_dataset_creation:
+    cmd: python src/data/load_data.py --config=params.yaml
+    deps:
+    - path: data/raw/1.0_FM_bloom_lftsv.parquet
+      hash: md5
+      md5: 8d59233c16af158e46c42d41ddcbd538
+      size: 13047477
+    - path: data/raw/1.1_FM_bloom_td.parquet
+      hash: md5
+      md5: f6c48b07d51b73a401791a67e0aa2e38
+      size: 2830999
+    - path: data/raw/2.1_FM_bloom_metabase_amount.parquet
+      hash: md5
+      md5: 87b002ab46a74733b02587b16898b9e9
+      size: 47671488
+    - path: data/raw/2.2_FM_bloom_metabase_trxn.parquet
+      hash: md5
+      md5: bbb8b059fffd2f494b211258653e5f60
+      size: 977359
+    - path: data/raw/2.3_FM_bloom_bcsv.parquet
+      hash: md5
+      md5: ffba4e4121e2dbef5badf609ad7f570a
+      size: 6521340
+    - path: data/raw/20.3_FM_bloom_ftd.parquet
+      hash: md5
+      md5: 706c2c589fa566cc623985854fedb367
+      size: 3386
+    - path: data/raw/20.4_FM_bloom_lrr.parquet
+      hash: md5
+      md5: d371b112f40816c19d9d54415fecdab5
+      size: 3767
+    - path: data/raw/20.4_FM_bloom_rein.parquet
+      hash: md5
+      md5: 93a65539adf8991f0aaec39e716e76aa
+      size: 7709
+    - path: data/raw/20.7_FM_bloom_sr_rein_last_limits.parquet
+      hash: md5
+      md5: b62930cfc3f09ff8c8471b648e8fa5ff
+      size: 12929
+    - path: data/raw/3.0_FM_bloom_idm.parquet
+      hash: md5
+      md5: c4d492226d4452e2d0de963d07a07625
+      size: 1051155
+    - path: data/raw/3.2_FM_bloom_blacklist.parquet
+      hash: md5
+      md5: bc552d53531373b8ba39798ceeaca24a
+      size: 127296
+    - path: data/raw/3.3_FM_bloom_sr_21_limits.parquet
+      hash: md5
+      md5: f58c67e2a104042852ee22a3c3253a4b
+      size: 2532877
+    - path: data/raw/3.4_FM_bloom_sr_latest_refresh_limits.parquet
+      hash: md5
+      md5: f69d26b8f93ebeb65c28897473a0ffad
+      size: 1921325
+    - path: data/raw/3.5_FM_bloom_rmv.parquet
+      hash: md5
+      md5: cebc4e01fcd24702a5e8dcc62666bed8
+      size: 4327215
+    - path: src/data/load_data.py
+      hash: md5
+      md5: 48bf2752117ecd22b6a050fada39e9b8
+      size: 7482

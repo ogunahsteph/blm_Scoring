@@ -1,0 +1,5 @@
+outs:
+- md5: 0a1ab3825dbe2bf4d6091d87f880fd81
+  size: 6468588
+  hash: md5
+  path: repayments_by_different_milestones_2.parquet

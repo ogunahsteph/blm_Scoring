@@ -1,0 +1,5 @@
+outs:
+- md5: f6c48b07d51b73a401791a67e0aa2e38
+  size: 2830999
+  hash: md5
+  path: 1.1_FM_bloom_td.parquet

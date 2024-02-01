@@ -1,0 +1,414 @@
+project_dir: ./
+
+db_credentials: 
+  dwh_env: ["DWH_HOST", "DWH_PORT", "DWH_DB_NAME", "DWH_USER", "DWH_PASSWORD"]
+  metabase_env: ["METABASE_HOST", "METABASE_PORT", "METABASE_DB_NAME", "METABASE_USER", "METABASE_PASSWORD"]
+  airflow_env: ["AIRFLOW_HOST", "AIRFLOW_USER", "AIRFLOW_PASSWORD"]
+  mlflow_env: ["MLFLOW_USER", "MLFLOW_PASSWORD"]
+  path: .env
+
+refresh_config:
+  lftsv_refresh: False
+  td_refresh: False
+  waiver_refresh: False
+  bcsv_refresh: False
+  meta_refresh: False
+  meta_trxn_refresh: False
+  meta_amount_refresh: False
+  idm_refresh: False
+  blacklist_refresh: False
+  blacklist_new_refresh: False
+  sr_21_limits_refresh: False
+  sr_latest_refresh_limits_refresh: False
+  rmv_refresh: False
+  ftd_refresh: False
+  lrr_refresh: False
+  rein_refresh: False
+  sr_rein_last_limits_refresh: False
+  weekly_refresh: False
+
+  tss_validate_push_limits: False
+  sr_validate_push_limits: False
+  saf_validate_push_limits: False
+  update_model_version: False
+
+raw_data_config:
+  lftsv_raw_data_parquet: data/raw/1.0_FM_bloom_lftsv.parquet
+  td_raw_data_parquet: data/raw/1.1_FM_bloom_td.parquet
+  waiver_raw_data_parquet: data/raw/1.2_FM_bloom_waiver.parquet
+  metabase_raw_data_parquet: data/raw/2.0_FM_bloom_metabase.parquet
+  metabase_trxn_raw_data_parquet: data/raw/2.2_FM_bloom_metabase_trxn.parquet
+  metabase_amount_raw_data_parquet: data/raw/2.1_FM_bloom_metabase_amount.parquet
+  bcsv_raw_data_parquet: data/raw/2.3_FM_bloom_bcsv.parquet
+  idm_raw_data_parquet: data/raw/3.0_FM_bloom_idm.parquet
+  blacklist_raw_data_csv: data/raw/3.1_JN_current_defaults_2022-09-22.csv
+  blacklist_raw_data_parquet: data/raw/3.2_FM_bloom_blacklist.parquet
+  blacklist_new_raw_data_parquet: data/raw/3.9_FM_bloom_blacklist_new.parquet
+  sr_21_limits_raw_data_parquet: data/raw/3.3_FM_bloom_sr_21_limits.parquet
+  sr_latest_refresh_limits_raw_data_parquet: data/raw/3.4_FM_bloom_sr_latest_refresh_limits.parquet
+  rmv_raw_data_parquet: data/raw/3.5_FM_bloom_rmv.parquet
+  ftd_raw_data_excel: data/raw/20.1_JN_First_Time_Defaulters_List.xlsx
+  ftd_raw_data_parquet: data/raw/20.3_FM_bloom_ftd.parquet
+  lrr_raw_data_parquet: data/raw/20.4_FM_bloom_lrr.parquet
+  rein_raw_data_parquet: data/raw/20.4_FM_bloom_rein.parquet
+  sr_rein_last_limits_raw_data_parquet: data/raw/20.7_FM_bloom_sr_rein_last_limits.parquet
+
+  ftd_lftsv_raw_data_parquet: data/raw/20.5_FM_bloom_ftd_lftsv.parquet
+  ftd_lftsv_behaviour_raw_data_parquet: data/raw/20.6_FM_bloom_ftd_lftsv_behaviour.parquet
+
+clean_data_config:
+  lftsv_features_in_scope: ['client_mifos_id', 'client_mobile_number', 'loan_status', 'loan_mifos_id', 'term_frequency', 'principal_disbursed', 'principal_repaid', 
+                            'interest_charged', 'interest_repaid', 'fee_charges_charged', 'fee_charges_repaid', 'penalty_charges_charged', 'penalty_charges_repaid',                                     'total_waived', 'total_expected_repayment', 'total_repayment', 'total_outstanding', 'disbursed_on_date', 'expected_matured_on_date',             
+                            'closed_on_date', 'store_number', 'bloom_version', 'src_crdt_score', 'due_date_fixed', 'end_rollover_date_fixed', 'expected_dpd90',                                           'safaricom_loan_balance']
+  lftsv_features_in_scope_clean: ["client_mobile_number", "store_number", "loan_count", "loan_status", "term_frequency", "principal_disbursed", "principal_repaid",
+                                  "disbursed_on_date", "expected_matured_on_date", "closed_on_date", "due_date_fixed", "end_rollover_date_fixed", "expected_dpd90", 
+                                  "days_past_due", "bloom_version", "total_waived",
+                                  "loan_repayment_status", "src_crdt_score", "max_principal_amount", "max_loan_disbursement_date", "count_good_loans", 
+                                  "good_loans_repayment_ratio", "num_days_since_last_disbursement", "inference_col", "weight_dpd", 
+                                  "max_days_past_due", "loan_count_past_3_months", "count_7_day_loans", "avg_loan_tenure", "count_7_day_loans_paid_upto_rollover", 
+                                  'good_loans_repayment_ratio(7_day_loans)', 'minimum_7_day_principal_disbursed', "total_sum_7_day_principal_disbursed", 
+                                  'total_sum_1_day_principal_disbursed', 'avg_7_day_principal_disbursed', 'days_past_end_rollover', 'any_bloom2_1day',
+                                  'total_outstanding_sum', 'safaricom_loan_balance_sum', 'loan_balance', 
+                                  'latest_21_loan', 'latest_7_loan', 'latest_1_loan', 
+                                  'snapshot_3m_21_loan', 'snapshot_3m_7_loan', 'snapshot_3m_1_loan'] #"expected_dpd5"
+  td_features_in_scope: ["mifos_loan_id", "is_reversed", "transaction_type_enum", "transaction_date", "bloom_version"]
+  waiver_features_in_scope: ["mifos_loan_id", "waived_amount"]
+  metabase_features_in_scope: ["store_number", "phone", "transaction_id", "transaction_time"]
+  metabase_trxn_features_in_scope: ["store_number", "most_recent_trx_date_past_30_days", "last_trx_date", "actual_trx_days"]
+  # metabase_amount_features_in_scope: ["store_number", "approx_30_days_trx_val"]
+  metabase_amount_features_in_scope: ["store_number", "transaction_time", "trx_val"]
+  bcsv_features_in_scope: ["store_number", "national_id", "is_iprs_validated", "mobile_number", "is_location_mapped", "opt_in_date"]
+  idm_features_in_scope: ["national_id", "idm_recommendation", "idm_limit"]
+  blacklist_features_in_scope: ["store_number", "national_id"]
+  blacklist_new_features_in_scope: ["store_number"]
+  sr_21_limits_features_in_scope: ["store_number", "total_final_21_limit", "total_final_1_limit", "total_final_7_limit", 
+                                   "final_21_limit_non_zero", "final_7_limit_non_zero", "final_1_limit_non_zero"]
+  sr_latest_refresh_limits_features_in_scope: ["store_number", "previous_21_limit", "previous_7_limit", "previous_1_limit", 
+                                               "model_630_21_limit", "model_630_7_limit", "model_630_1_limit",
+                                               "previous_3m_21_limit", "previous_3m_7_limit", "previous_3m_1_limit"]
+  rmv_features_in_scope: ["loan_mifos_id", "repayment_amount_by_due_date", "repayment_amount_by_rllvr_date", "repayment_amount_by_dpd30", "repayment_amount_by_dpd90"] #"repayment_amount_by_dpd5"
+  ftd_features_in_scope: ["store_number", "ftd_update_flag", "reinstatement_reason"]
+  lrr_features_in_scope: ["store_number", "lrr_update_flag", "reinstatement_reason"]
+  rein_features_in_scope: ["store_number", "rein_update_flag", "reinstatement_reason"]
+  sr_rein_last_limits_features_in_scope: ["store_number", "rein_7_limit", "loan_mifos_id"]
+
+  lftsv_int_to_string_cols: ["store_number", "client_mifos_id", "client_mobile_number", "loan_mifos_id"]
+  td_int_to_string_cols: ["mifos_loan_id"]
+  waiver_int_to_string_cols: ["mifos_loan_id"]
+  metabase_int_to_string_cols: ["store_number", "phone"]
+  metabase_trxn_int_to_string_cols: ["store_number"]
+  metabase_amount_int_to_string_cols: ["store_number"]
+  bcsv_int_to_string_cols: ["store_number", "national_id", "mobile_number", "is_iprs_validated", "is_location_mapped"]
+  idm_int_to_string_cols: ["national_id"]
+  blacklist_int_to_string_cols: ["store_number"]
+  blacklist_new_int_to_string_cols: ["store_number"]
+  sr_21_limits_int_to_string_cols: ["store_number"]
+  sr_latest_refresh_limits_int_to_string_cols: ["store_number"]
+  rmv_int_to_string_cols: ["loan_mifos_id"]
+  ftd_int_to_string_cols: ["store_number"]
+  lrr_int_to_string_cols: ["store_number"]
+  rein_int_to_string_cols: ["store_number"]
+  sr_rein_last_limits_int_to_string_cols: ["store_number"]
+  
+  lftsv_datetime_cols: ["disbursed_on_date", "expected_matured_on_date", "closed_on_date", "due_date_fixed", "end_rollover_date_fixed", "expected_dpd90"]
+  td_datetime_cols: ["transaction_date"]
+  metabase_datetime_cols: ["transaction_time"]
+  metabase_trxn_datetime_cols: ["most_recent_trx_date_past_30_days", "last_trx_date"]
+  metabase_amount_datetime_cols: ["transaction_time"]
+  bcsv_datetime_cols: ["opt_in_date"]
+  
+  lftsv_string_to_float_cols: ['client_mobile_number', 'principal_disbursed', 'principal_repaid', 'interest_charged', 'interest_repaid',
+                               'fee_charges_charged', 'fee_charges_repaid', 'penalty_charges_charged',
+                               'penalty_charges_repaid', 'total_outstanding', 'total_waived', 'bloom_version']
+  td_string_to_float_cols: ["bloom_version"]
+  sr_latest_refresh_limits_string_to_float_cols: ["previous_21_limit", "previous_7_limit", "previous_1_limit", 
+                                                  "model_630_21_limit", "model_630_7_limit", "model_630_1_limit",
+                                                  "previous_3m_21_limit", "previous_3m_7_limit", "previous_3m_1_limit"]
+  
+  lftsv_float_to_int_cols: ['store_number']
+  
+  lftsv_logs_cols: 'disbursed_on_date'
+  td_logs_cols: 'transaction_date'
+  metabase_logs_cols: 'transaction_time'
+  metabase_trxn_logs_cols: 'most_recent_trx_date_past_30_days'
+  metabase_amount_logs_cols: 'transaction_time'
+  bcsv_logs_cols: ["opt_in_date"]
+  last_model_refresh: "2022-004[2022-05-14, 2022-09-15]"
+  lftsv_non_null_cols: ["loan_mifos_id", "disbursed_on_date", "store_number"]
+
+  lftsv_cols_fillna: ['count_good_loans', 'good_loans_repayment_ratio', 'loan_count_past_3_months', 'count_7_day_loans', 'count_7_day_loans_paid_upto_rollover', 
+                      'good_loans_repayment_ratio(7_day_loans)', 'minimum_7_day_principal_disbursed', 'total_sum_7_day_principal_disbursed', 
+                      'total_sum_1_day_principal_disbursed', 'avg_7_day_principal_disbursed']
+  min_loan_amount: 200
+
+
+  ftd_lftsv_features_in_scope: ['client_mifos_id', 'client_mobile_number', 'loan_status', 'loan_mifos_id', 'term_frequency', 'principal_disbursed', 'principal_repaid', 
+                            'interest_charged', 'interest_repaid', 'fee_charges_charged', 'fee_charges_repaid', 'penalty_charges_charged', 'penalty_charges_repaid', 'total_waived',
+                            'total_expected_repayment', 'total_repayment', 'total_outstanding', 'disbursed_on_date', 'expected_matured_on_date', 'closed_on_date', 
+                            'store_number', 'bloom_version', 'src_crdt_score', 'due_date_fixed', 'end_rollover_date_fixed', 'expected_dpd90', 'safaricom_loan_balance', 'safaricom_loan_balance_date']
+  ftd_lftsv_features_in_scope_clean: ["client_mobile_number", "store_number", "loan_count", "loan_status", "term_frequency", "principal_disbursed", "principal_repaid",
+                                  "disbursed_on_date", "expected_matured_on_date", "closed_on_date", "due_date_fixed", "end_rollover_date_fixed", "expected_dpd90", 
+                                  "days_past_due", "bloom_version", 
+                                  "loan_repayment_status", "src_crdt_score", "max_principal_amount", "max_loan_disbursement_date", "count_good_loans", 
+                                  "good_loans_repayment_ratio", "num_days_since_last_disbursement", "inference_col", "weight_dpd", 
+                                  "max_days_past_due", "loan_count_past_3_months", "count_7_day_loans", "avg_loan_tenure", "count_7_day_loans_paid_upto_rollover", 
+                                  'good_loans_repayment_ratio(7_day_loans)', 'minimum_7_day_principal_disbursed', "total_sum_7_day_principal_disbursed", 
+                                  'total_sum_1_day_principal_disbursed', 'avg_7_day_principal_disbursed', 'days_past_end_rollover', 'any_bloom2_1day',
+                                  'total_outstanding_sum', 'safaricom_loan_balance_sum', 'loan_balance', 'latest_21_loan', 'latest_7_loan', 'latest_1_loan']
+  ftd_lftsv_behaviour_features_in_scope: ['client_mifos_id', 'client_mobile_number', 'loan_status', 'loan_mifos_id', 'term_frequency', 'principal_disbursed', 'principal_repaid', 
+                                          'interest_charged', 'interest_repaid', 'fee_charges_charged', 'fee_charges_repaid', 'penalty_charges_charged', 'penalty_charges_repaid', 'total_waived',
+                                          'total_expected_repayment', 'total_repayment', 'total_outstanding', 'disbursed_on_date', 'disbursed_on_date_snapshot', 'date_diff', 'expected_matured_on_date', 'closed_on_date', 
+                                          'store_number', 'bloom_version', 'src_crdt_score', 'due_date_fixed', 'end_rollover_date_fixed', 'expected_dpd90', 'safaricom_loan_balance', 'safaricom_loan_balance_date']
+  ftd_lftsv_behaviour_features_in_scope_clean: ["client_mobile_number", "store_number", "loan_count", "loan_status", "term_frequency", "principal_disbursed", "principal_repaid",
+                                                "disbursed_on_date", "expected_matured_on_date", "closed_on_date", "due_date_fixed", "end_rollover_date_fixed", "expected_dpd90", 
+                                                "days_past_due", "bloom_version", 
+                                                "loan_repayment_status", "src_crdt_score", "max_principal_amount", "max_loan_disbursement_date", "count_good_loans", 
+                                                "good_loans_repayment_ratio", "num_days_since_last_disbursement", "inference_col", "weight_dpd", 
+                                                "max_days_past_due", "loan_count_past_3_months", "count_7_day_loans", "avg_loan_tenure", "count_7_day_loans_paid_upto_rollover", 
+                                                'good_loans_repayment_ratio(7_day_loans)', 'minimum_7_day_principal_disbursed', "total_sum_7_day_principal_disbursed", 
+                                                'total_sum_1_day_principal_disbursed', 'avg_7_day_principal_disbursed', 'days_past_end_rollover', 'any_bloom2_1day',
+                                                'total_outstanding_sum', 'safaricom_loan_balance_sum', 'loan_balance', 'latest_21_loan', 'latest_7_loan', 'latest_1_loan']
+
+  ftd_lftsv_int_to_string_cols: ["store_number", "client_mifos_id", "client_mobile_number", "loan_mifos_id"]
+  ftd_lftsv_behaviour_int_to_string_cols: ["store_number", "client_mifos_id", "client_mobile_number", "loan_mifos_id"]
+
+processed_data_config:
+  lftsv_clean_data_parquet: data/processed/1.0_FM_bloom_lftsv_clean.parquet
+  td_clean_data_parquet: data/processed/1.1_FM_bloom_td_clean.parquet
+  waiver_clean_data_parquet: data/processed/1.1_FM_bloom_waiver_clean.parquet
+  metabase_clean_data_parquet: data/processed/2.0_FM_bloom_metabase_clean.parquet
+  metabase_trxn_clean_data_parquet: data/processed/2.2_FM_bloom_metabase_trxn_clean.parquet
+  metabase_amount_clean_data_parquet: data/processed/2.1_FM_bloom_metabase_amount_clean.parquet
+  bcsv_clean_data_parquet: data/processed/2.1_FM_bloom_bcsv_clean.parquet
+  idm_clean_data_parquet: data/processed/3.0_FM_bloom_idm_clean.parquet
+  blacklist_clean_data_parquet: data/processed/3.2_FM_bloom_blacklist_clean.parquet
+  blacklist_new_clean_data_parquet: data/processed/3.9_FM_bloom_blacklist_new_clean.parquet
+  sr_21_limits_clean_data_parquet: data/processed/3.3_FM_bloom_sr_21_limits_clean.parquet
+  sr_latest_refresh_limits_clean_data_parquet: data/processed/3.4_FM_bloom_sr_latest_refresh_limits_clean.parquet
+  rmv_clean_data_parquet: data/processed/3.5_FM_bloom_rmv_clean.parquet
+  ftd_clean_data_parquet: data/processed/20.3_FM_bloom_ftd_clean.parquet
+  lrr_clean_data_parquet: data/processed/20.4_FM_bloom_lrr_clean.parquet
+  rein_clean_data_parquet: data/processed/20.4_FM_bloom_rein_clean.parquet
+  sr_rein_last_limits_clean_data_parquet: data/processed/20.7_FM_bloom_sr_rein_last_limits_clean.parquet
+  ftd_lftsv_clean_data_parquet: data/processed/20.5_FM_bloom_ftd_lftsv_clean.parquet
+  ftd_lftsv_behaviour_clean_data_parquet: data/processed/20.6_FM_bloom_ftd_lftsv_behaviour_clean.parquet
+  merged_data_parquet: data/processed/4.0_FM_bloom_merged_data.parquet
+  scored_limits_risk_review_data_parquet: data/processed/5.0_FM_bloom_scored_limits_risk_review.parquet
+  scored_limits_risk_review_data_excel: 'data/processed/Limits_refresh_summary_{}_multiple_products.xlsx'
+  scored_limits_risk_review_data_excel_parquet: 'data/processed/Limits_refresh_summary_{}_multiple_products.parquet'
+  tss_scored_limits_approved_data_parquet: data/processed/6.0_FM_bloom_tss_scored_limits_approved.parquet
+  sr_scored_limits_approved_data_parquet: data/processed/6.1_FM_bloom_sr_scored_limits_approved.parquet
+  saf_scored_limits_approved_data_parquet: data/processed/6.2_FM_bloom_saf_scored_limits_approved.parquet
+  bloom_customers_no_till_data_parquet: data/processed/7.0_FM_bloom_customers_no_till.parquet
+  excluded_first_time_data_parquet: data/processed/8.0_FM_excluded_first_time.parquet
+
+interim_data_config:
+  engineered_features_parquet: data/interim/1.0_FM_bloom_lftsv_engineered_features.parquet
+  loans_summary_data_parquet: data/interim/1.0_FM_bloom_clients_loans_summary.parquet
+  td_engineered_features_parquet: data/interim/1.1_FM_bloom_td_engineered_features.parquet
+  td_summary_data_parquet: data/interim/1.1_FM_bloom_td_summary.parquet
+  tills_summary_data_parquet: data/interim/2.0_FM_bloom_clients_tills_summary.parquet
+  trxn_summary_data_parquet: data/interim/2.0_FM_bloom_clients_trxn_summary.parquet
+  max_dpd_30_data_parquet: data/interim/1.0_FM_bloom_lftsv_max_dpd_30.parquet
+  before_21d_graduation_limits_data_parquet: data/interim/before_21d_graduation_limits.parquet
+  after_21d_graduation_limits_data_parquet: data/interim/after_21d_graduation_limits.parquet
+  scored_limits_data_parquet: data/interim/scored_limits.parquet
+  after_rmdd_ge95_data_parquet: data/interim/after_rmdd_ge95_limits.parquet
+  after_rmdd_ge96_data_parquet: data/interim/after_rmdd_ge96_limits.parquet
+  tss_validate_push_raw_data_parquet: data/interim/3.6_FM_bloom_tss_validate_push.parquet
+  sr_validate_push_raw_data_parquet: data/interim/3.7_FM_bloom_sr_validate_push.parquet
+  previous_summaries_parquet: data/interim/22.0_JN_Limits_refresh_summary_20230207_multiple_products.parquet
+  tu_data_no_limits_parquet: data/interim/TU_data_no_limits.parquet
+  sr_rein_cohort_data_csv: data/interim/20.8_FM_bloom_sr_rein_cohort_20230324.csv
+  sr_rein_cohort_data_parquet: data/interim/20.8_FM_bloom_sr_rein_cohort.parquet
+  kyc_flag_updates_excel: data/interim/Bloom KYC Flag Updates.xlsx
+
+merged_data_config:
+  cols_fill_na: ["loan_count", "total_final_21_limit", "previous_21_limit", "previous_7_limit", "previous_1_limit", 
+                 "due_date_rm_ge_rm_1d", "due_date_rm_ge_rm_add_back", "rllvr_date_rm_ge_rm_add_back", "due_date_100_check", "rllvr_date_102_check"] #"dpd90_rm_ge104p"
+  cols_fill_idm: ["idm_recommendation"]
+  cols_fill_iprs: ["is_iprs_validated"]
+  cols_fill_map: ["is_location_mapped"]
+  cols_fill_dpd: ["days_past_due"]
+
+cluster_model_config:
+  never_borrowed_features_in_scope: ["approx_30_days_trx_val", "page_active_days", "days_since_last_trx", "weight_recency", "weight_consistency", "actual_trx_days"]
+  cluster_hurdle_rates_data_parquet: models/hurdle_rates_pred.parquet
+  cluster_model_1_path: models/hierarchical_model_1.pkl
+  cluster_model_2_path: models/hierarchical_model_2.pkl
+  cluster_scaling_pipeline_path: models/clustering_scaler_model.pkl
+  cluster_dim_reduction_pipeline_path: models/clustering_pca_model.pkl
+
+clf_model_config:
+  never_borrowed_features_in_scope: ["approx_30_days_trx_val", "page_active_days", "days_since_last_trx", "weight_recency", "weight_consistency", "actual_trx_days"]
+  clf_model_path: models/decision_tree_model.pkl
+  clf_scaling_pipeline_path: models/clf_scaler_model.pkl
+  # clf_dim_reduction_pipeline_path: models/clf_pca_model.pkl
+
+reg_model_config:
+  never_borrowed_features_in_scope: ["approx_30_days_trx_val", "page_active_days", "days_since_last_trx", "actual_trx_days"] # ["approx_30_days_trx_val", "page_active_days", "days_since_last_trx", "weight_recency", "weight_consistency", "actual_trx_days"] # ['approx_30_days_trx_val', 'expected_trx_days', 'actual_trx_days', 'page_active_days', 'days_since_last_trx', 'weight_consistency', 'weight_recency']
+  reg_clusters_in_scope: [4, 5, 8]
+  reg_model_erd_path: models/reg_model_erd.pkl
+  reg_model_dpd30_path: models/reg_model_dpd30.pkl
+  reg_scaling_pipeline_path: models/reg_scaler_model.pkl
+
+  reg_scaling_pipeline_cluster_4_path: models/scaler_model_cluster_4.pkl
+  reg_scaling_pipeline_cluster_5_path: models/scaler_model_cluster_5.pkl
+  reg_scaling_pipeline_cluster_8_path: models/scaler_model_cluster_8.pkl
+  reg_dim_reduction_cluster_4_pipeline_path: models/dim_model_cluster_4.pkl
+  reg_dim_reduction_cluster_5_pipeline_path: models/dim_model_cluster_5.pkl
+  reg_dim_reduction_cluster_8_pipeline_path: models/dim_model_cluster_8.pkl
+  reg_model_erd_cluster_4_path: models/regression_model_erd_cluster_4.pkl
+  reg_model_erd_cluster_5_path: models/regression_model_erd_cluster_5.pkl
+  reg_model_erd_cluster_8_path: models/regression_model_erd_cluster_8.pkl
+  reg_model_dpd30_cluster_4_path: models/regression_model_dpd30_cluster_4.pkl
+  reg_model_dpd30_cluster_5_path: models/regression_model_dpd30_cluster_5.pkl
+  reg_model_dpd30_cluster_8_path: models/regression_model_dpd30_cluster_8.pkl
+
+loan_status_config: 
+  loan_status_codes: [300, 600, 601, 700]
+  thirty_day_product_rollover: 7 #Bloom 1.0
+  twenty_one_day_product_rollover: 5 #Bloom 2.0 only
+  seven_day_product_rollover_bloom1: 7 #Bloom 2.0 adjusted to 5 days from 7 days in Bloom 1.0
+  seven_day_product_rollover_bloom2: 5 
+  three_day_product_rollover: 2
+  one_day_product_rollover: 1 #Bloom 2.0, may be adjusted to 5 days as well
+
+recency_config:
+  no_rules_relaxed_recency_threshold: 5
+  rules_relaxed_recency_threshold: 7
+  transaction_boolean_accepted: "Yes"
+  transaction_boolean_rejected: "No"
+  recency_weights: [1, 1, 0.9, 0.7, 0]
+
+adjusted_loan_count_config:
+  loan_count_threshold: 6
+  num_days_since_last_disbursement_threshold: 180
+
+crb_limit_factor_config:
+  term_frequencies: [21, 7, 1]
+  crb_approve_limit_factor_21: 0.50
+  crb_reject_limit_factor_21: 0.35
+  crb_approve_limit_factor_7: 0.17
+  crb_reject_limit_factor_7: 0.12
+  crb_approve_limit_factor_1: 0.17
+  crb_reject_limit_factor_1: 0.12
+
+limits_decrease_zeroization_config:
+  dpd_allowance: 10
+  repayment_ratio_threshold: 1.0
+  zeroize: 0
+
+limit_zeroization_till_summary_config:
+  transaction_boolean_accepted: "Yes"
+  transaction_boolean_rejected: "No"
+  consistency_threshold: 0.7
+  zeroize: 0
+
+adjust_limits_to_loan_bands_21_config:
+  no_loans: 0
+
+limit_factor_config:
+  limit_21_approve: 0.5
+  limit_21_reject: 0.35
+  limit_7_approve: 0.17
+  limit_7_reject: 0.12
+  limit_1_approve: 0.17
+  limit_1_reject: 0.12
+
+limit_cap_config: 1.25
+
+approximate_21_day_limit_config:
+  seven_day_limit_factor: 0.17
+  twenty_one_day_limit_factor: 0.5
+  product_cap: 200000
+  zero: 0
+
+test_accounts_config: 
+  store_number: ['573691', '219091', '884766', '735346', '735362', '5009587', '70055', '90044', '700505', '985454', '7141925', '735337', '931301', '7347742']
+  blacklist_flag: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  final_21_limit: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+  final_7_limit: [500, 500, 500, 500, 500, 1000, 1000, 1000, 1000, 500, 500, 500, 500, 1000]
+  final_1_limit: [300, 300, 300, 300, 300, 1000, 1000, 1000, 1000, 300, 300, 300, 300, 1000]
+
+model_label_config:
+  model_index: "2023-016"
+  model_start_date_y: 2023
+  model_start_date_m: 09
+  model_start_date_d: 29
+
+# rejection_reasons_config:
+#   repayment_ratio_response: "bad repayment history:A1"
+#   dpd_response: "bad repayment history:A2"
+#   till_recency_response: "lower than expected trading activity:B1"
+#   till_consistency_response: "lower than expected trading activity:B2"
+#   idm_recommendation_response: "inadequate CRB risk profile:C1"
+#   num_days_since_last_disbursement_response: "insufficient recent credit activity:D1"
+#   trivial_limits_cut_off: "limit assigned less than product thresholds:E1"
+#   kyc_check: "limits zeroized due to incomplete KYC:H1"
+#   credit_score_response: "low risk score:J1"
+  
+rejection_reasons_config:
+  repayment_ratio_response: "bad repayment history:A1"
+  dpd_response: "bad repayment history:A2"
+  till_recency_response: "lower than expected trading activity:B1"
+  till_consistency_response: "lower than expected trading activity:B2"
+  idm_recommendation_response: "inadequate CRB risk profile:C1"
+  num_days_since_last_disbursement_response: "insufficient recent credit activity:C2"
+  credit_score_response: "low risk score:C3"
+  risk_appetite_response: "limit assigned in line with risk apetite:C5"
+  trivial_limits_cut_off: "limit assigned less than product thresholds:D1"
+  single_limit_per_national_ID_response: "client already has limit allocated to another product/store number:D5"
+  kyc_mobile_number_check: "incomplete or invalid phone number:E2"
+  kyc_national_id_check: "incomplete or invalid IPRS/national ID verification status:E3"  
+  
+upload_data_config:
+  cols_fillna: ["final_21_limit", "final_7_limit", "final_1_limit"]
+  to_string_cols: ["most_recent_trx_date_past_30_days", "last_trx_date", "national_id", "disbursed_on_date", "expected_matured_on_date", "closed_on_date",
+                   "due_date_fixed", "max_loan_disbursement_date", "due_date_fixed", "due_date_fixed", "created_at", "record_added_to_warehouse_on_timestamp", "due_date_fixed"]
+  to_float_cols: ["adjusted_loan_count", "blacklist_flag"]
+  risk_features_in_scope: ['mobile_number', 'store_number', 'approx_30_days_trx_val', 'most_recent_trx_date_past_30_days', 'last_trx_date',
+                          'expected_trx_days', 'actual_trx_days', 'page_active_days', 'inference_col', 'days_since_last_trx', 'transacted_last_5_days',
+                          'weight_till_recency', 'national_id', 'idm_recommendation', 'idm_limit', 'is_iprs_validated', 'is_location_mapped', 'client_mobile_number', 
+                          'loan_count','loan_status', 'term_frequency', 'principal_disbursed', 'principal_repaid', 'disbursed_on_date', 'expected_matured_on_date',
+                          'closed_on_date', 'due_date_fixed', 'days_past_due', 'bloom_version', 'loan_repayment_status', 'src_crdt_score', 'max_principal_amount',
+                          'max_loan_disbursement_date', 'count_good_loans', 'good_loans_repayment_ratio', 'num_days_since_last_disbursement',
+                          'weight_dpd', 'adjusted_loan_count','repayments_by_dd_vs_principal_mean', 'due_date_rm_ge_rm_1d', 'due_date_rm_ge_rm_add_back',
+                          'repayments_by_erd_vs_principal_mean', 'rllvr_date_rm_ge_rm_add_back','21_day_graduation_flag','max_global_limit', 'previous_max_global_limit',
+                          'max_limit_diff', 'limit_factor_21', 'limit_factor_7', 'limit_factor_1', 'idm_factor_21', 'idm_factor_7', 'idm_factor_1',
+                          'trading_consistency_bands', 'loan_count_bands', 'new_limit_factor_21', 'new_limit_factor_7', 'new_limit_factor_1',
+                          'weight_good_loans_repayment_ratio', 'weight_consistency', 'weight_recency', 'risk_rules_factor', 'ultimate_factor_21',
+                          'ultimate_factor_7', 'ultimate_factor_1', 'limit_21_day', 'limit_7_day', 'limit_1_day', 'adjusted_21_limit', 'adjusted_7_limit',
+                          'adjusted_1_limit', 'final_21_limit', 'final_7_limit', 'final_1_limit', 'blacklist_flag', 'total_final_21_limit', 'previous_21_limit',
+                          'previous_7_limit', 'previous_1_limit', 'hurdle_rate_by_due_date_mean', 'hurdle_rate_by_end_rollover_date_mean',                               
+                          'hurdle_rate_by_dpd30_mean', 'opt_in_date', 'dpd30_rm_ge_rm_never_borrowed', 'repayments_by_erd_vs_principal_cluster', 'tu_data_scoring', 'consolidated_repayments_by_dpd30', 'model_version', 'created_at']  ##'l21_day_graduation_flag_new_limits'
+  db_features_in_scope_tss: ["store_number", "approx_30_days_trx_val", "most_recent_trx_date_past_30_days", "last_trx_date","expected_trx_days", "actual_trx_days", 
+                         "page_active_days", "days_since_last_trx", "transacted_last_5_days", "weight_till_recency", "national_id", "client_mobile_number", 
+                         "loan_count", "loan_status", "term_frequency", "principal_disbursed",  "principal_repaid", "disbursed_on_date", "expected_matured_on_date", 
+                         "closed_on_date", "due_date_fixed", "days_past_due", "bloom_version", "loan_repayment_status", "max_principal_amount", "max_loan_disbursement_date", 
+                         "count_good_loans", "good_loans_repayment_ratio", "num_days_since_last_disbursement", "weight_dpd", "adjusted_loan_count", "limit_21_day", 
+                         "limit_7_day", "limit_1_day", "adjusted_21_limit", "adjusted_7_limit", "adjusted_1_limit", "final_21_limit", "final_7_limit", "final_1_limit", 
+                         "model_version", "blacklist_flag", "limit_factor_21", "limit_factor_7", "limit_factor_1", "created_at", "record_added_to_warehouse_on_timestamp"]
+  db_features_in_scope_sr: ["store_number", "national_id", "final_21_limit", "final_7_limit", "final_1_limit", "idm_recommendation", "limit_factor_21", 
+                             "limit_factor_7", "limit_factor_1", "model_version", "blacklist_flag", "created_at", "limit_reason"] #record_added_to_warehouse_on_timestamp
+  table_tss: "BLOOMLIVE.temp_scoring_summaries"
+  table_sr: "BLOOMLIVE.scoring_results"
+  insert_query: "INSERT INTO %s(%s) VALUES %%s"
+  airflow_dag_url: 'data-pipelines/api/v1/dags/Bloom_limit_refresh_push/dagRuns'
+  headers_content_type: 'application/json'
+  headers_accept: 'application/json'
+  conf_is_initial_run: "true"
+  verify: False
+
+good_loans_repayment_ratio_config: 1.0
+
+snaphot_period_config: -91
+trxn_data_period_config: -182
+
+mlflow_config:
+  prefix: MLFLOW
+  artifacts_dir: artifacts
+  experiment_name: ke_saf_bloom
+  run_name: expert_rules
+  registered_model_name: expert_rules_model
+  remote_server_uri: https://mlflow.asantefsg.com/ # http://localhost:5050 | http://134.209.237.247:5050

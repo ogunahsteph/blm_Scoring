@@ -1,0 +1,5 @@
+outs:
+- md5: c4d492226d4452e2d0de963d07a07625
+  size: 1051155
+  hash: md5
+  path: 3.0_FM_bloom_idm.parquet

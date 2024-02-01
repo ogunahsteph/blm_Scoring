@@ -1,0 +1,4 @@
+outs:
+- md5: 4ec433d94a0e6c4f571cd7482ada5573
+  size: 20246
+  path: 20.2_FM_first_time_defaulters_list.parquet

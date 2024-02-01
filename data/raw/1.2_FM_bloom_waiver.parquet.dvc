@@ -1,0 +1,5 @@
+outs:
+- md5: 2ae828a7095868bcf708824d013d52a1
+  size: 417265
+  hash: md5
+  path: 1.2_FM_bloom_waiver.parquet

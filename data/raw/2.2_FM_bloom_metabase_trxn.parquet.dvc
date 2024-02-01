@@ -1,0 +1,5 @@
+outs:
+- md5: bbb8b059fffd2f494b211258653e5f60
+  size: 977359
+  hash: md5
+  path: 2.2_FM_bloom_metabase_trxn.parquet

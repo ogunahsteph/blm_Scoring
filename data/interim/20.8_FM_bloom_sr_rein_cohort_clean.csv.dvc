@@ -1,0 +1,4 @@
+outs:
+- md5: fbc0219c4975f8cfa8772bdaa48a17f1
+  size: 89342
+  path: 20.8_FM_bloom_sr_rein_cohort_clean.csv

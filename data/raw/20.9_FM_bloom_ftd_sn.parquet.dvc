@@ -1,0 +1,4 @@
+outs:
+- md5: 479ada74dd66bfe08d8f3858c498b603
+  size: 345780
+  path: 20.9_FM_bloom_ftd_sn.parquet

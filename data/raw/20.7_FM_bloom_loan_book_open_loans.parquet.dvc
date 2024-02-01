@@ -1,0 +1,4 @@
+outs:
+- md5: 1b6850300e0f514fe72ba4f1294ae485
+  size: 1337213
+  path: 20.7_FM_bloom_loan_book_open_loans.parquet

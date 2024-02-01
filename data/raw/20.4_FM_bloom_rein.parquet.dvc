@@ -1,0 +1,5 @@
+outs:
+- md5: 93a65539adf8991f0aaec39e716e76aa
+  size: 7709
+  hash: md5
+  path: 20.4_FM_bloom_rein.parquet

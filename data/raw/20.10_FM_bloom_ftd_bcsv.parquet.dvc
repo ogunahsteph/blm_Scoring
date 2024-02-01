@@ -1,0 +1,4 @@
+outs:
+- md5: 303ae58b1e07cb701cf5514a6b70a317
+  size: 609243
+  path: 20.10_FM_bloom_ftd_bcsv.parquet
