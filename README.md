@@ -1,3 +1,3 @@
-# Bloom expert rules model
+# Blm expert 
 
-Bloom expert rules model that is currently in use.
+Blm comprehensive mix model
